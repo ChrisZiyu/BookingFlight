@@ -1,3 +1,4 @@
+Sure! Here’s your **complete GitHub README** with **database normalization** properly formatted alongside the previous sections. 🚀  
 
 ---
 
@@ -12,12 +13,11 @@
 - [🚀 Features](#-features)
 - [🛠️ Technologies Used](#-technologies-used)
 - [📂 Database Design](#-database-design)
+- [🔎 Database Normalization](#-database-normalization)
 - [📜 SQL Queries](#-sql-queries)
 - [⚙️ Setup & Installation](#️-setup--installation)
 - [📸 Screenshots (ER Diagram)](#-screenshots-er-diagram)
 - [📌 Future Enhancements](#-future-enhancements)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
 - [📞 Contact](#-contact)
 
 ---
@@ -27,7 +27,6 @@
 ✅ **Entity-Relationship (ER) model** for structuring flight bookings  
 ✅ **Advanced SQL queries** for managing bookings, travelers, and flights  
 ✅ **Joins, aggregations, and views** for optimized data retrieval  
-✅ **Stored procedures and triggers** *(if applicable)* for automation  
 
 ---
 
@@ -35,7 +34,7 @@
 - **Database:** PostgreSQL / Oracle SQL  
 - **Query Language:** SQL  
 - **Tools:** SQL Developer / pgAdmin  
-- **Concepts:** Normalization, Joins, Views, Stored Procedures  
+- **Concepts:** Normalization, Joins, Views
 
 ---
 
@@ -54,6 +53,69 @@ The system consists of multiple tables with **foreign key relationships**:
 
 ---
 
+## **🔎 Database Normalization**
+To ensure **data integrity, minimize redundancy, and optimize query performance**, the **Flight Booking Management System** database was **normalized to 3NF (Third Normal Form).**  
+
+### **🛠 Normalization for Booking Records**  
+#### **✅ 1NF (First Normal Form)**
+Ensures each column contains **atomic values** (no repeating groups).  
+```plaintext
+BookingRecord [bookingID, flight_num, bookedOn, flightName, airlineCode, airlineName, 
+               aircraftCode, aircraftDesc, operatedBy, depdate, depTime, depAirportName, 
+               depCity, arrDate, arrTime, arrAirportCode, arrAirportName]
+Bookings_Flight [bookingID, bookedOn]
+```
+---
+
+#### **✅ 2NF (Second Normal Form)**
+Removes **partial dependencies** by ensuring all **non-key attributes are fully dependent** on the primary key.  
+```plaintext
+BookingRecord [bookingID, bookedOn]
+Bookings_Flight [bookingID, flight_num]
+Flight [flightNum, flightName, airlineCode (FK), airlineName, aircraftCode (FK), aircraftDesc, 
+        operatedBy (FK), depdate, depTime, depAirportCode (FK), depAirportName, depCity, 
+        arrDate, arrTime, arrAirportCode (FK), arrAirportName]
+```
+---
+
+#### **✅ 3NF (Third Normal Form)**
+Eliminates **transitive dependencies**, ensuring that **non-key attributes are not dependent on other non-key attributes**.  
+```plaintext
+BookingRecord [bookingID, bookedOn]
+Booking_Flight [bookingID (FK), flight_num (FK), depTime, arrTime]
+Flight [flightNum, airlineCode (FK), aircraftCode (FK), operatedBy (FK), depdate, 
+        depAirportCode (FK), depAirportName, depCity, arrDate, arrAirportCode (FK), arrAirportName]
+Airline [airlineCode, airlineName]
+Aircraft [aircraftCode, aircraftDesc, operatedBy]
+Airport [airportCode, airportName, city]
+```
+---
+
+### **🛠 Normalization for Ticket System**  
+#### **✅ 1NF (First Normal Form)**
+Ensures no **duplicate or repeating groups**.  
+```plaintext
+Ticket [eticket#, travelerID, bookingID (FK), travelerFname, travelerLname, 
+        gender, mealPreference, ticketPrice, taxesFees]
+```
+---
+
+#### **✅ 2NF (Second Normal Form)**
+Splitting data to remove **partial dependencies**.  
+```plaintext
+Traveler [travelerID, travelerFname, travelerLname, gender]
+Ticket [eTicket#, travelerID (FK), bookingID (FK), ticketPrice, taxesFees, mealPreference]
+```
+---
+
+✅ **By normalizing the database,** we ensure **efficient data retrieval, reduced redundancy, and improved database performance!** 🎯  
+
+---
+
+Here is your **updated GitHub README** with the additional **SQL queries** properly formatted. 🚀  
+
+---
+
 ## **📜 SQL Queries**
 ### 🔍 **1️⃣ List Airline, Aircraft & Airport details for a flight**
 ```sql
@@ -69,17 +131,31 @@ WHERE F.flight_Num = 'AF393';
 ```
 ---
 
-### 📋 **2️⃣ List all passengers for a specific booking**
+### 📋 **2️⃣ List flight details for a specific booking**
+*(Fetches flight details for `bookingId = 56753365`, ordered by departure date and time.)*
 ```sql
-SELECT Tt.booking_ID_Tckt AS bookingID, Tt.eticketNum, 
-       T.traveler_Fname, T.traveler_Lname
+SELECT BF.booking_ID, BR.bookedOn, F.flight_Num, F.dep_Airport_Code, F.depDate AS depDate, 
+       BF.depTime, F.arr_Airport_Code, F.arr_Date AS arrDate, BF.arrTime
+FROM BOOKINGFLIGHT BF
+JOIN FLIGHTS F ON BF.flightNum = F.flight_Num
+JOIN BOOKINGRECORD BR ON BF.booking_ID = BR.bookingID
+WHERE BF.booking_ID = 56753365
+ORDER BY F.depDate, TO_DATE(BF.depTime, 'HH:MI PM');
+```
+---
+
+### 🧑‍✈️ **3️⃣ List all passengers for a specific booking**
+*(Retrieves all passengers associated with `bookingId = 56753365`.)*
+```sql
+SELECT Tt.booking_ID_Tckt AS bookingID, Tt.eticketNum, T.traveler_Fname, T.traveler_Lname
 FROM TICKET Tt
 JOIN TRAVELER T ON Tt.traveler_ID_Tckt = T.travelerID
 WHERE Tt.booking_ID_Tckt = 56753365;
 ```
 ---
 
-### 💰 **3️⃣ Calculate total fees for a booking**
+### 💰 **4️⃣ Calculate total ticket fees for a booking**
+*(Calculates the total amount paid for tickets and fees for `bookingId = 56753365`.)*
 ```sql
 SELECT SUM(Tt.ticket_price + Tt.ticket_fees) AS total_fees
 FROM TICKET Tt
@@ -87,7 +163,8 @@ WHERE Tt.booking_ID_Tckt = 56753365;
 ```
 ---
 
-### 🔎 **4️⃣ Create a SQL View for Bookings & Ticket Count**
+### 📊 **5️⃣ Create a SQL View for Bookings & Ticket Count**
+*(Creates a view to track the number of tickets for each booking.)*
 ```sql
 CREATE VIEW Book_ticket AS
 SELECT BR.bookingID, COUNT(Tt.eticketNum) AS num_tickets
@@ -95,15 +172,12 @@ FROM BOOKINGRECORD BR
 LEFT JOIN TICKET Tt ON BR.bookingID = Tt.booking_ID_Tckt
 GROUP BY BR.bookingID;
 ```
-✅ **Optimized queries** for better performance  
-✅ **Indexes & constraints** to maintain data integrity  
-
 ---
 
 ## **⚙️ Setup & Installation**
 ### **1️⃣ Clone the repository**
 ```bash
-git clone https://github.com/yourusername/flight-booking-db.git
+git clone https://github.com/ChrisZiyu/flight-booking-db.git
 cd flight-booking-db
 ```
 ---
@@ -132,23 +206,10 @@ psql -U your_username -d your_database -f assignment2SQL.sql
 
 ---
 
-## **🤝 Contributing**
-Pull requests are welcome! Feel free to submit feature requests or bug fixes.  
-
----
-
-## **📄 License**
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.  
-
----
-
 ## **📞 Contact**
-📧 **Email:** [your-email@example.com](mailto:your-email@example.com)  
-🔗 **GitHub:** [github.com/yourusername](https://github.com/yourusername)  
+📧 **Email:** [christianukiike@gmail.com](mailto:christianukiike@gmail.com)  
+🔗 **GitHub:** [github.com/ChrisZiyu](https://github.com/ChrisZiyu)  
 
 ---
 
-This **README** is fully **structured & optimized** for **GitHub** with Markdown **headings, tables, and code blocks**. 🎯  
 
-✅ **Next Step:** Upload your project to **GitHub**, and I can help format the repo! 🚀  
-Would you like me to **write a short project description for LinkedIn as well?**
