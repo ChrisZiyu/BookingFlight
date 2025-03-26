@@ -1,5 +1,3 @@
-Sure! Here's the **structured and well-formatted README** for **GitHub**, following **Markdown best practices** with proper headings, code blocks, and formatting. 🚀  
-
 ---
 
 # **🛫 Flight Booking Management System**  
