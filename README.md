@@ -4,7 +4,8 @@
 # **🛫 Flight Booking Management System**  
 *A relational database system for managing airline bookings, travelers, and tickets.*  
 
-## **Database ER Schema**
+## 📊 Database Schema  
+Below is the Entity-Relationship Diagram (ERD) for the booking and ticketing system.
 ![Booking System Schema](https://github.com/ChrisZiyu/BookingFlight/blob/main/booking_system_schema%20(1).png)
  
 
