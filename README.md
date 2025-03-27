@@ -1,11 +1,11 @@
-Sure! Here’s your **complete GitHub README** with **database normalization** properly formatted alongside the previous sections. 🚀  
 
 ---
 
 # **🛫 Flight Booking Management System**  
 *A relational database system for managing airline bookings, travelers, and tickets.*  
 
-![Database Schema](https://your-image-link.com) *(Add an ER Diagram here if available!)*  
+![Booking System Schema](https://github.com/ChrisZiyu/BookingFlight/blob/main/booking_system_schema%20(1).png)
+ 
 
 ---
 
