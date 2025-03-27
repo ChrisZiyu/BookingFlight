@@ -195,7 +195,7 @@ psql -U your_username -d your_database -f assignment2SQL.sql
 ---
 
 ## **📸 Screenshots (ER Diagram)**
-*(Add an image of your ER Diagram if available!)*  
+![Database Schema](https://github.com/ChrisZiyu/BookingFlight/blob/main/Flights.jpg)
 
 ---
 
