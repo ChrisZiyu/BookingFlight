@@ -197,6 +197,14 @@ psql -U your_username -d your_database -f assignment2SQL.sql
 ## **📸 Screenshots (ER Diagram)**
 ![Database Schema](https://github.com/ChrisZiyu/BookingFlight/blob/main/Flights.jpg)
 
+![Database Schema](https://github.com/ChrisZiyu/BookingFlight/blob/main/Airport.jpg)
+
+![Database Schema](https://github.com/ChrisZiyu/BookingFlight/blob/main/Airline_aircraft.jpg)
+
+![Database Schema](https://github.com/ChrisZiyu/BookingFlight/blob/main/BookingFlight.jpg)
+
+![Database Schema](https://github.com/ChrisZiyu/BookingFlight/blob/main/Ticket_traveler.jpg)
+
 ---
 
 ## **📌 Future Enhancements**
