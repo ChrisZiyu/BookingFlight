@@ -205,6 +205,13 @@ psql -U your_username -d your_database -f assignment2SQL.sql
 
 ![Database Schema](https://github.com/ChrisZiyu/BookingFlight/blob/main/Ticket_traveler.jpg)
 
+![Database Schema](https://github.com/ChrisZiyu/BookingFlight/blob/main/Traveler.jpg)
+
+![Database Schema](https://github.com/ChrisZiyu/BookingFlight/blob/main/Airline_flights.jpg)
+
+
+
+
 ---
 
 ## **📌 Future Enhancements**
